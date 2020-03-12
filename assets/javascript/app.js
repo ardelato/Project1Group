@@ -9,7 +9,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 const fireApp = firebase.initializeApp(firebaseConfig);
-
+var database = firebase.database();
 var modal = document.getElementById("id01");
 
 // When the user clicks anywhere outside of the modal, close it
@@ -34,6 +34,42 @@ $(window).on("load", function() {
         var errorCode = error.code;
         var errorMessage = error.message;
         // ...
+
+        console.log(errorCode);
+        console.log(errorMessage);
       });
+  });
+
+  $(".loginbtn").on("click", function(event) {
+    event.preventDefault();
+    console.log("Logging In");
+    console.log($("#email").val());
+    console.log($("#psw").val());
+
+    fireApp
+      .auth()
+      .signInWithEmailAndPassword($("#email").val(), $("#psw").val())
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        console.log(errorCode);
+        console.log(errorMessage);
+        // ...
+      });
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        console.log(user);
+        database.ref(user.uid).set({
+          currentUserID: user.uid
+        });
+      } else {
+        // No user is signed in.
+        console.log("Not signed in");
+      }
+    });
   });
 });
