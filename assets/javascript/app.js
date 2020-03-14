@@ -46,7 +46,11 @@ $(window).on("load", function() {
           console.log("Error: " + errorMessage);
 
           //Email has incorrect syntax
-          if (errorMessage === "The email address is badly formatted.") {
+          if (
+            errorMessage === "The email address is badly formatted." ||
+            errorMessage ===
+              "The email address is already in use by another account."
+          ) {
             var eMess = $("<small>").text(errorMessage);
             eMess.css({
               display: "inline-block",
