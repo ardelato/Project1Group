@@ -29,17 +29,17 @@ $(window).on("load", function() {
       .remove();
 
     console.group("Submitting");
-    console.log("Email: " + $("#email").val());
-    console.log("Password: " + $("#psw").val());
-    console.log("Repeat Password: " + $("#psw-repeat").val());
+    console.log("Email: " + $(".email").val());
+    console.log("Password: " + $(".psw").val());
+    console.log("Repeat Password: " + $(".psw-repeat").val());
     console.groupEnd();
 
     // Validate that the user enterred the same password
-    if ($("#psw").val() == $("#psw-repeat").val()) {
+    if ($(".psw").val() == $(".psw-repeat").val()) {
       // Try to sign up the new user with the entered email and passowrd
       fireApp
         .auth()
-        .createUserWithEmailAndPassword($("#email").val(), $("#psw").val())
+        .createUserWithEmailAndPassword($(".email").val(), $(".psw").val())
         .catch(function(error) {
           // An error occured when trying to authenticate the new user
           var errorMessage = error.message;
@@ -58,7 +58,7 @@ $(window).on("load", function() {
               color: "red"
             });
             //Display Error
-            $("#email-section").append(eMess);
+            $(".email-section").append(eMess);
           }
           //Password is not long enough
           else if (
@@ -71,7 +71,7 @@ $(window).on("load", function() {
               color: "red"
             });
             // Display Error
-            $("#psw-section").append(eMess);
+            $(".psw-section").append(eMess);
           }
         });
     }
@@ -86,27 +86,70 @@ $(window).on("load", function() {
       });
 
       //Display Error
-      $("#psw-repeat-section").append(eMess);
+      $(".psw-repeat-section").append(eMess);
     }
   });
 
   $(".loginbtn").on("click", function(event) {
+    $(".input-section")
+      .find("small")
+      .remove();
+
     event.preventDefault();
     console.log("Logging In");
-    console.log($("#email").val());
-    console.log($("#psw").val());
+    console.log($(".email").val());
+    console.log($(".psw").val());
 
     fireApp
       .auth()
-      .signInWithEmailAndPassword($("#email").val(), $("#psw").val())
+      .signInWithEmailAndPassword($(".email").val(), $(".psw").val())
       .catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
         var errorMessage = error.message;
+        console.log("Login Error: " + errorMessage);
 
-        console.log(errorCode);
-        console.log(errorMessage);
-        // ...
+        //Bad Email format
+        if (errorMessage === "The email address is badly formatted.") {
+          console.log("Bad Email address");
+
+          var eMess = $("<small>").text(errorMessage);
+          eMess.css({
+            display: "inline-block",
+            "margin-bottom": "20px",
+            color: "red"
+          });
+          //Display Error
+          $(".email-section").append(eMess);
+        }
+
+        //User email not found
+        else if (
+          errorMessage ===
+          "There is no user record corresponding to this identifier. The user may have been deleted."
+        ) {
+          var eMess = $("<small>").text(
+            "No user with this email could be found."
+          );
+          eMess.css({
+            display: "inline-block",
+            "margin-bottom": "20px",
+            color: "red"
+          });
+          //Display Error
+          $(".email-section").append(eMess);
+        } else if (
+          errorMessage ===
+          "The password is invalid or the user does not have a password."
+        ) {
+          var eMess = $("<small>").text("Incorrect Password");
+          eMess.css({
+            display: "inline-block",
+            "margin-bottom": "20px",
+            color: "red"
+          });
+          // Display Error
+          $(".psw-section").append(eMess);
+        }
       });
 
     firebase.auth().onAuthStateChanged(function(user) {
