@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-us">
+<meta name = "viewport" content="width=device-width, initial-scale= 1.0">   
+<head>
+  <meta charset="UTF-8" />
+  <title>Binge WatchList</title>
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
+  <!-----Firebasebootstrap references needs to be here             -->
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+  <!-----Firebase references needs to be here             -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+<!---------------------------------------------------------------------------------------->
+  <header id="masthead">
+    <div class="container">
+      <div class="sticky-header">         
+        <nav>
+            <h1> Binge Watch </h1>
+            <h4>Your Personal Binge List</h4>           
+            <a id = "mysearch"  href="mysearch_index.html">Search More Titles</a>            
+            <br>
+            <hr size=10>
+        </nav>
+    </div>
+  </div>
+  </header>
+<!---------------------------------------------------------------------------------------->
+  <div id="main-container" class="container">
+    <section class="main-section">
+     
+<!-- We'll be dumping our JSON contents in here -->
+<br>
+<br>
+      <div id="movie-view"></div>
+     
+    </section>
+
+  </div>
+<!---------------------------------------------------------------------------------------->
+</body>
+
+</html>
