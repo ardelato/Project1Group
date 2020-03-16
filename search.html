@@ -47,7 +47,7 @@
             <h4>Search thousands of movies and TV titles add them to your list</h4>
   <!--       <button id="mylist" href="mylist_index.html"><strong>My List</strong></button>   ------->
             <p id = "myloid"> Hello xxxx  logon id goes here?  move to the right</p>
-            <a id = "mylist"  href="mylist_index.html">Go To My Binge List</a>    
+            <a id = "mylist"  href="myList.html">Go To My Binge List</a>    
             <hr size=10>
         </nav>
     </div>
@@ -127,7 +127,16 @@
             });
           })
 
-          // =================================================================
+       
+          $(document.body).on("click", ".clickable", function() {
+            let movieFireBase = $(this).attr('id');
+            $(this).removeClass("clickable");
+            console.log(movieFireBase);
+            //At the moment it is immediately pushing. Plan to push into array and place into database as an array
+            database.ref("DXji6kUNySV5oc5x80REEeuSRfH3").push({
+              movievalue: movieFireBase
+            });
+          });
         });
       </script>
     </div>

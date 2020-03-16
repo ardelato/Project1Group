@@ -3,9 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale= 1.0" />
   <head>
     <meta charset="UTF-8" />
-    <title>Binge Watch Logon</title>
+    <title>Binge WatchList</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-
     <!-----Firebasebootstrap references needs to be here             -->
     <link
       rel="stylesheet"
@@ -15,15 +14,12 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
-    <!-----Firebase SDKs-->
+    <!-----Firebase references needs to be here             -->
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="assets/javascript/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
   </head>
-
   <body>
     <!---------------------------------------------------------------------------------------->
     <header id="masthead">
@@ -31,8 +27,9 @@
         <div class="sticky-header">
           <nav>
             <h1>Binge Watch</h1>
-            <h4>Build Your Own Binge Watch List</h4>
-
+            <h4>Your Personal Binge List</h4>
+            <a id="mysearch" href="search.html">Search More Titles</a>
+            <br />
             <hr size="10" />
           </nav>
         </div>
@@ -41,34 +38,10 @@
     <!---------------------------------------------------------------------------------------->
     <div id="main-container" class="container">
       <section class="main-section">
-        <form id="loginForm">
-          <div class="row">
-            <div class="col-lg-4 input-section email-section">
-              <label for="email"><b>Email</b></label>
-              <input
-                type="text"
-                placeholder="Enter email"
-                class="email"
-                required
-              />
-            </div>
-
-            <div class="col-lg-4 input-section psw-section">
-              <label for="psw"><b>Password</b></label>
-              <input
-                type="password"
-                placeholder="Enter Password"
-                class="psw"
-                required
-              />
-            </div>
-
-          <div class="row">
-            <div class="col-lg-5" id="s1">
-              <input type="submit" id="loginbtn" value="Submit" />
-            </div>
-          </div>
-        </form>
+        <!-- We'll be dumping our JSON contents in here -->
+        <br />
+        <br />
+        <div id="movie-view"></div>
       </section>
     </div>
     <!---------------------------------------------------------------------------------------->
