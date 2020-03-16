@@ -154,7 +154,7 @@ $(window).on("load", function() {
         database.ref(user.uid).set({
           currentUserID: user.uid
         });
-        window.location.href = "myList_index.html";
+        window.location.href = "myList.html";
       } else {
         // No user is signed in.
         console.log("Not signed in");
