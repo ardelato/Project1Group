@@ -1,0 +1,82 @@
+.container, #main-container{
+    background-color: lightseagreen;
+    max-width: 1160px;
+}
+
+hr{
+    color:black; 
+}
+#xrow{
+    background-color: lightseagreen; 
+    height: 400px;
+    max-width: 1160px;
+}
+
+#loginbtn {
+    background-color: darkgray;
+    border-radius: 10px ;
+    border-color: midnightblue;
+    color: black;
+}
+#mylist, #mysearch{
+    background-color:lightsalmon;
+    border-radius: 10px ;
+    border-color: midnightblue;
+    color: black;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.psw, .email{
+    border-radius: 10px ;
+    border-color: midnightblue;
+    background-color:lightcyan;
+}
+
+.psw:hover, .email:hover, #movie-input:hover{
+    border-radius: 10px ;
+    border-color: midnightblue;
+    background-color: rgb(235, 235, 103); 
+}
+
+#loginForm{
+    padding-top: 50px;
+}
+#movie-input, #find-movie{
+    border-radius: 10px ;
+    border-color: midnightblue;
+    font-weight: bold;
+}
+#movie-form{
+    background-color: lightseagreen;
+    max-width: 1160px;
+    margin-right:105px;
+    margin-left:105px;
+    padding-left:100px;
+    padding-top:25px;
+    padding-bottom: 25px;
+    font-weight: bold;
+}
+#search-results{
+    padding-left: 110px;
+    padding-top: 15px;
+}
+#myhours{
+    text-align: center;
+    font-size:150%;
+    font-weight: bold;
+    text-align: right;
+}
+h1, h4 {
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+
+
+
+
+
+
