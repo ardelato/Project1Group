@@ -90,20 +90,21 @@ $(window).on("load", function() {
   database.ref().on("value", function(snapshot) {
     // First Call
     if (movieWatchList === undefined) {
-      movieWatchList = snapshot
-        .child("DXji6kUNySV5oc5x80REEeuSRfH3")
-        .val()
-        .movielist.split(",");
-      console.group("Movie Watch List ");
-      console.log("Movie List", movieWatchList);
-      if (movieWatchList[0] === "") {
-        console.log("TRUE");
+      if (
+        snapshot.child("DXji6kUNySV5oc5x80REEeuSRfH3").val().movielist ===
+        undefined
+      ) {
+        movieWatchList = [];
+        database.ref("DXji6kUNySV5oc5x80REEeuSRfH3").set({
+          movielist: ""
+        });
       } else {
-        console.log("FALSE");
+        movieWatchList = snapshot
+          .child("DXji6kUNySV5oc5x80REEeuSRfH3")
+          .val()
+          .movielist.split(",");
       }
-      console.groupEnd();
 
-      console.log(movieWatchList);
       queueCalls(movieWatchList);
     }
 

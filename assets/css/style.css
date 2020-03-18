@@ -1,6 +1,6 @@
 .container,
 #main-container {
-  background-color: lightseagreen;
+  background-color: #f9e7e7;
   max-width: 1160px;
 }
 
@@ -8,7 +8,7 @@ hr {
   color: black;
 }
 #xrow {
-  background-color: lightseagreen;
+  background-color: #f9e7e7;
   height: 400px;
   max-width: 1160px;
 }
@@ -54,7 +54,7 @@ hr {
   font-weight: bold;
 }
 #movie-form {
-  background-color: lightseagreen;
+  background-color: #f9e7e7;
   max-width: 1160px;
   margin: 0 auto;
   padding: 2em;

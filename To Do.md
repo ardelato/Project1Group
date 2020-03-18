@@ -6,6 +6,6 @@
 - [X] Move javascript in search.html to javascript files
 - [X] Trim whitespace on search
 - [X] Modal Creation
-  - [ ] CSS creation
+  - [X] CSS creation
 - [X] Remove movie from binge list
-- [ ] Sum run time
+- [X] Sum run time
