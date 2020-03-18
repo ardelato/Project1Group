@@ -1,177 +1,92 @@
-var firebaseConfig = {
-  apiKey: "AIzaSyDvVoaxb3fAckCI9QjeArsJfmx9Bl4nFx4",
-  authDomain: "binge-watch-74349.firebaseapp.com",
-  databaseURL: "https://binge-watch-74349.firebaseio.com",
-  projectId: "binge-watch-74349",
-  storageBucket: "binge-watch-74349.appspot.com",
-  messagingSenderId: "365798929386",
-  appId: "1:365798929386:web:4ace1385f70f2b289bf893"
-};
-// Initialize Firebase
-const fireApp = firebase.initializeApp(firebaseConfig);
-var database = firebase.database();
-
-function errorMessage(message, section) {
-  var eMess = $("<small>").text(message);
-  eMess.css({
-    display: "inline-block",
-    "margin-bottom": "20px",
-    color: "red"
-  });
-  //Display Error
-  section.append(eMess);
-}
-
 $(window).on("load", function() {
-  // Clicking the Sign Up button will execute the following
-  // $(".signupbtn").on("click", function(event) {
-  //   event.preventDefault();
-  //   //Reset Error Messages
-  //   $(".input-section")
-  //     .find("small")
-  //     .remove();
-
-  //   console.group("Submitting");
-  //   console.log("Email: " + $(".email").val());
-  //   console.log("Password: " + $(".psw").val());
-  //   console.log("Repeat Password: " + $(".psw-repeat").val());
-  //   console.groupEnd();
-
-  //   // Validate that the user enterred the same password
-  //   if ($(".psw").val() == $(".psw-repeat").val()) {
-  //     // Try to sign up the new user with the entered email and passowrd
-  //     fireApp
-  //       .auth()
-  //       .createUserWithEmailAndPassword($(".email").val(), $(".psw").val())
-  //       .catch(function(error) {
-  //         // An error occured when trying to authenticate the new user
-  //         var errorMessage = error.message;
-  //         console.log("Error: " + errorMessage);
-
-  //         //Email has incorrect syntax
-  //         if (
-  //           errorMessage === "The email address is badly formatted." ||
-  //           errorMessage ===
-  //             "The email address is already in use by another account."
-  //         ) {
-  //           var eMess = $("<small>").text(errorMessage);
-  //           eMess.css({
-  //             display: "inline-block",
-  //             "margin-bottom": "20px",
-  //             color: "red"
-  //           });
-  //           //Display Error
-  //           $(".email-section").append(eMess);
-  //         }
-  //         //Password is not long enough
-  //         else if (
-  //           errorMessage === "Password should be at least 6 characters"
-  //         ) {
-  //           var eMess = $("<small>").text(errorMessage);
-  //           eMess.css({
-  //             display: "inline-block",
-  //             "margin-bottom": "20px",
-  //             color: "red"
-  //           });
-  //           // Display Error
-  //           $(".psw-section").append(eMess);
-  //         }
-  //       });
-  //   }
-  //   //Passwords do not match
-  //   else {
-  //     console.warn("Passwords Do Not Match");
-  //     var eMess = $("<small>").text("Passwords do not match!");
-  //     eMess.css({
-  //       display: "inline-block",
-  //       "margin-bottom": "20px",
-  //       color: "red"
-  //     });
-
-  //     //Display Error
-  //     $(".psw-repeat-section").append(eMess);
-  //   }
-  // });
-
-  $("#loginbtn").on("click", function(event) {
-    event.preventDefault();
-
-    //Remove current inputs if any
-    $(".input-section")
-      .find("small")
-      .remove();
-
-    // Save email and password to vars to reduce jquery calls
-    var email = $(".email").val();
-    var passowrd = $(".psw").val();
-
-    console.log("Logging In");
-    console.log(email);
-    console.log(passowrd);
-
-    //Checks if there is an email
-    if (!(email === "")) {
-      fireApp
-        .auth()
-        .signInWithEmailAndPassword(email, passowrd)
-        .catch(function(error) {
-          // Handle Errors here.
-          var eMessage = error.message;
-
-          //Bad Email format
-          if (eMessage === "The email address is badly formatted.") {
-            errorMessage(eMessage, $(".email-section"));
-          }
-
-          //User email not found
-          else if (
-            eMessage ===
-            "There is no user record corresponding to this identifier. The user may have been deleted."
-          ) {
-            errorMessage(
-              "No user with this email could be found.",
-              $(".email-section")
-            );
-          }
-          //Password is Incorrect
-          else if (
-            eMessage ===
-            "The password is invalid or the user does not have a password."
-          ) {
-            errorMessage("Incorrect Password", $(".psw-section"));
-          }
-        });
-    }
-    // Email has not been entered
-    else {
-      errorMessage("Please enter an email", $(".email-section"));
-    }
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        console.log(user);
-        database.ref(user.uid).set({
-          currentUserID: user.uid
-        });
-        window.location.href = "myList.html";
+  // PAGELOAD Firebase
+  //Pull initial movie list and also updates list
+  var movieWatchList;
+  database.ref().on("value", function(snapshot) {
+    // First Call
+    if (movieWatchList === undefined) {
+      movieWatchList = snapshot
+        .child("DXji6kUNySV5oc5x80REEeuSRfH3")
+        .val()
+        .movielist.split(",");
+      console.group("Movie Watch List ");
+      console.log("Movie List", movieWatchList);
+      if (movieWatchList[0] === "") {
+        console.log("TRUE");
       } else {
-        // No user is signed in.
-        console.log("Not signed in");
+        console.log("FALSE");
+      }
+      console.groupEnd();
+    }
+  });
+
+  // DOM Search Queries
+
+  $("#find-movie").on("click", function(event) {
+    // Preventing the submit button from trying to submit the form
+    // We're optionally using a form so the user may hit Enter to search instead of clicking the button
+    event.preventDefault();
+    // Here we grab the text from the input box
+    var movie = $("#movie-input").val();
+    $("#movie-view").empty();
+    // Here we construct our URL
+    var queryURL =
+      "https://www.omdbapi.com/?s=" +
+      movie +
+      "&type=movie" +
+      "&apikey=trilogy&page=1";
+
+    // Write code between the dashes below to hit the queryURL with $ajax, then take the response data
+    // and display it in the div with an id of movie-view
+
+    // YOUR CODE GOES IN THESE DASHES. DO NOT MANUALLY EDIT THE HTML ABOVE
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).then(function(response) {
+      // console.log(response.Search);
+      // $("#movie-view").text(JSON.stringify(response));
+
+      //Appending all possible results of search onto page in form of Poster, Title
+      let len = response.Search.length;
+      console.log(len);
+      console.log(response.Search);
+      for (let m = 0; m < len; m++) {
+        //creating Objects
+        let object = $("<div>");
+        let image = $(
+          "<img src = " + response.Search[m].Poster + " alt = 'Poster is N/A'>"
+        );
+        let title = response.Search[m].Title;
+        //creating overall class and unique IDs
+        $(object).addClass("movie-container");
+        $(object).addClass("clickable");
+        $(object).attr("id", response.Search[m].imdbID);
+        //appending into #movie-view
+        $(object).append(image);
+        $(object).append(title);
+        $("#movie-view").append(object);
       }
     });
   });
-});
 
-// Before the user leaves log them out
-window.addEventListener("beforeunload", function(event) {
-  firebase
-    .auth()
-    .signOut()
-    .then(function() {
-      // Sign-out successful.
-    })
-    .catch(function(error) {
-      // An error happened.
+  $(document.body).on("click", ".clickable", function() {
+    let movieFireBase = $(this).attr("id");
+    $(this).removeClass("clickable");
+    console.log(typeof movieFireBase);
+    if (movieWatchList[0] === "") {
+      movieWatchList[0] = movieFireBase;
+    }
+    // Check if movie is in database already
+    else if (!movieWatchList.includes(movieFireBase)) {
+      console.log(movieWatchList.includes(movieFireBase));
+      movieWatchList.push(movieFireBase);
+      console.log("New Movie Added");
+      console.log(movieWatchList);
+    }
+    //At the moment it is immediately pushing. Plan to push into array and place into database as an array
+    database.ref("DXji6kUNySV5oc5x80REEeuSRfH3").update({
+      movielist: movieWatchList.join()
     });
+  });
 });

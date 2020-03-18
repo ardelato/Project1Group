@@ -19,8 +19,24 @@
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="assets/javascript/server.js"></script>
+    <script src="assets/javascript/myList.js"></script>
   </head>
   <body>
+    <style>
+      #object-view {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .object-container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        margin: 3vw;
+        text-align: center;
+        cursor: pointer;
+      }
+    </style>
     <!---------------------------------------------------------------------------------------->
     <header id="masthead">
       <div class="container">
@@ -42,7 +58,7 @@
         <!-- We'll be dumping our JSON contents in here -->
         <br />
         <br />
-        <div id="movie-view"></div>
+        <div id="object-view"></div>
       </section>
     </div>
     <!---------------------------------------------------------------------------------------->
