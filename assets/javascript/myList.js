@@ -1,6 +1,7 @@
 // Pull Firebase Movielist
 // Parse the list and make AJAX Calls
 // Then create DOM element
+var watchTime = 0;
 
 function apiCall(id) {
   //Ajax calls
@@ -15,6 +16,8 @@ function apiCall(id) {
     let title = object.Title;
     let image = $("<img src = " + object.Poster + " alt = 'Poster is N/A'>");
     let runtime = object.Runtime;
+    watchTime += Number.parseInt(runtime.split(" ")[0]);
+    console.log("Current WatchTime: " + watchTime);
 
     let combineString = title + " (" + runtime + ")";
     let newObject = $("<div>");
@@ -27,9 +30,17 @@ function apiCall(id) {
     $(newObject).append(image);
     $(newObject).append(combineString);
     $(newObject).append(
-      `<button data-imdbID=${object.imdbID} class='clickable'>Remove Movie</button>`
+      `<button data-imdbID=${object.imdbID} data-runtime=${
+        runtime.split(" ")[0]
+      } class='clickable'>Remove Movie</button>`
     );
     $("#object-view").append(newObject);
+    $("#myHours").text(
+      Math.floor(watchTime / 60) +
+        " Hours and " +
+        Math.floor(watchTime % 60) +
+        " Minutes"
+    );
   });
 }
 
@@ -105,17 +116,28 @@ $(window).on("load", function() {
   //Remove Movie from List
   $(document.body).on("click", ".clickable", function() {
     let movieFireBase = $(this).attr("data-imdbID");
+    console.group("Watch Time Subtraction");
+    console.log("Current WatchTime: " + watchTime);
+    console.log("Movie Runtime: " + $(this).attr("data-runtime"));
+    watchTime -= $(this).attr("data-runtime");
+    console.log("New WatchTime: " + watchTime);
+    console.groupEnd();
     $(this)
       .parent()
       .remove();
-
-    // Check if movie is in database already
 
     console.log(movieWatchList.includes(movieFireBase));
     movieWatchList.splice(movieWatchList.indexOf(movieFireBase), 1);
     console.log("Movie Deleted");
     console.log(movieWatchList);
 
+    //Update Time
+    $("#myHours").text(
+      Math.floor(watchTime / 60) +
+        " Hours and " +
+        Math.floor(watchTime % 60) +
+        " Minutes"
+    );
     //At the moment it is immediately pushing. Plan to push into array and place into database as an array
     database.ref("DXji6kUNySV5oc5x80REEeuSRfH3").update({
       movielist: movieWatchList.join()

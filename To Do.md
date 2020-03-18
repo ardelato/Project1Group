@@ -8,3 +8,4 @@
 - [X] Modal Creation
   - [ ] CSS creation
 - [X] Remove movie from binge list
+- [ ] Sum run time
