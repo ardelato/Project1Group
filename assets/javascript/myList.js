@@ -18,10 +18,17 @@ function apiCall(id) {
 
     let combineString = title + " (" + runtime + ")";
     let newObject = $("<div>");
+
+    $(image).addClass("modal-click");
+    $(image).attr("data-imdbID", object.imdbID);
+
     $(newObject).addClass("object-container");
 
     $(newObject).append(image);
     $(newObject).append(combineString);
+    $(newObject).append(
+      `<button data-imdbID=${object.imdbID} class='clickable'>Remove Movie</button>`
+    );
     $("#object-view").append(newObject);
   });
 }
@@ -57,5 +64,25 @@ $(window).on("load", function() {
       console.log(movieWatchList);
       queueCalls(movieWatchList);
     }
+  });
+
+  //Remove Movie from List
+  $(document.body).on("click", ".clickable", function() {
+    let movieFireBase = $(this).attr("data-imdbID");
+    $(this)
+      .parent()
+      .remove();
+
+    // Check if movie is in database already
+
+    console.log(movieWatchList.includes(movieFireBase));
+    movieWatchList.splice(movieWatchList.indexOf(movieFireBase), 1);
+    console.log("Movie Deleted");
+    console.log(movieWatchList);
+
+    //At the moment it is immediately pushing. Plan to push into array and place into database as an array
+    database.ref("DXji6kUNySV5oc5x80REEeuSRfH3").update({
+      movielist: movieWatchList.join()
+    });
   });
 });

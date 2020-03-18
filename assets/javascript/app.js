@@ -27,7 +27,9 @@ $(window).on("load", function() {
     // We're optionally using a form so the user may hit Enter to search instead of clicking the button
     event.preventDefault();
     // Here we grab the text from the input box
-    var movie = $("#movie-input").val();
+    var movie = $("#movie-input")
+      .val()
+      .trim();
     $("#movie-view").empty();
     // Here we construct our URL
     var queryURL =
@@ -58,20 +60,24 @@ $(window).on("load", function() {
           "<img src = " + response.Search[m].Poster + " alt = 'Poster is N/A'>"
         );
         let title = response.Search[m].Title;
+
+        $(image).addClass("modal-click");
+        $(image).attr("data-imdbID", response.Search[m].imdbID);
         //creating overall class and unique IDs
         $(object).addClass("movie-container");
-        $(object).addClass("clickable");
-        $(object).attr("id", response.Search[m].imdbID);
         //appending into #movie-view
         $(object).append(image);
         $(object).append(title);
+        $(object).append(
+          `<button data-imdbID=${response.Search[m].imdbID} class='clickable'>Add Movie</button>`
+        );
         $("#movie-view").append(object);
       }
     });
   });
 
   $(document.body).on("click", ".clickable", function() {
-    let movieFireBase = $(this).attr("id");
+    let movieFireBase = $(this).attr("data-imdbID");
     $(this).removeClass("clickable");
     console.log(typeof movieFireBase);
     if (movieWatchList[0] === "") {
