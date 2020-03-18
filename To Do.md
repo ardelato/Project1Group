@@ -5,6 +5,6 @@
 - [ ] User sign up is implemented (not static)
 - [X] Move javascript in search.html to javascript files
 - [X] Trim whitespace on search
-- [ ] Modal Creation
+- [X] Modal Creation
   - [ ] CSS creation
-- [ ] Remove movie from binge list
+- [X] Remove movie from binge list
