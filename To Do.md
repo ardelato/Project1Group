@@ -4,7 +4,8 @@
 - [x] Put movieList into Firebase for user as array
 - [ ] User sign up is implemented (not static)
 - [X] Move javascript in search.html to javascript files
-- [ ] Trim whitespace on search
-- [ ] Modal Creation
-  - [ ] CSS creation
-  - [ ] 
+- [X] Trim whitespace on search
+- [X] Modal Creation
+  - [X] CSS creation
+- [X] Remove movie from binge list
+- [X] Sum run time

@@ -1,7 +1,7 @@
 $(window).on("load", function() {
   // PAGELOAD Firebase
   //Pull initial movie list and also updates list
-  var movieWatchList;
+  let movieWatchList;
   database.ref().on("value", function(snapshot) {
     // First Call
     if (movieWatchList === undefined) {
@@ -27,10 +27,12 @@ $(window).on("load", function() {
     // We're optionally using a form so the user may hit Enter to search instead of clicking the button
     event.preventDefault();
     // Here we grab the text from the input box
-    var movie = $("#movie-input").val();
+    let movie = $("#movie-input")
+      .val()
+      .trim();
     $("#movie-view").empty();
     // Here we construct our URL
-    var queryURL =
+    let queryURL =
       "https://www.omdbapi.com/?s=" +
       movie +
       "&type=movie" +
@@ -58,20 +60,24 @@ $(window).on("load", function() {
           "<img src = " + response.Search[m].Poster + " alt = 'Poster is N/A'>"
         );
         let title = response.Search[m].Title;
+
+        $(image).addClass("modal-click");
+        $(image).attr("data-imdbID", response.Search[m].imdbID);
         //creating overall class and unique IDs
         $(object).addClass("movie-container");
-        $(object).addClass("clickable");
-        $(object).attr("id", response.Search[m].imdbID);
         //appending into #movie-view
         $(object).append(image);
         $(object).append(title);
+        $(object).append(
+          `<button data-imdbID=${response.Search[m].imdbID} class='clickable'>Add Movie</button>`
+        );
         $("#movie-view").append(object);
       }
     });
   });
 
   $(document.body).on("click", ".clickable", function() {
-    let movieFireBase = $(this).attr("id");
+    let movieFireBase = $(this).attr("data-imdbID");
     $(this).removeClass("clickable");
     console.log(typeof movieFireBase);
     if (movieWatchList[0] === "") {
@@ -89,4 +95,40 @@ $(window).on("load", function() {
       movielist: movieWatchList.join()
     });
   });
+
+  $(document.body).on("click", ".modal-click", function() {
+    console.group("Entered Modal Code");
+    getModalInfo($(this).attr("data-imdbID"));
+  });
 });
+
+function getModalInfo(id) {
+  let URL = "https://www.omdbapi.com/?i=" + id + "&apikey=trilogy";
+
+  $.ajax({
+    url: URL,
+    method: "GET"
+  }).then(function(response) {
+    console.log(response);
+
+    // set each movie with attr: 1) rating, 2) plot, 3) actors, 4) rotten tomatoes scores, 5) poster.
+
+    $(".modal-title").text(response.Title);
+    $("#rating").text(response.Rated);
+    $("#plot").text(response.Plot);
+    $("#actors").text(response.Actors);
+
+    // create if else statement to aviod content without ratings not showing in html
+    if (response.Ratings.length > 2) {
+      let rottenTomatoes = response.Ratings[1].Value;
+
+      $("#rotten-tomatoes").text("Rotten Tomatoes Score: " + rottenTomatoes);
+    } else {
+      $("#rotten-tomatoes").text("No Rotten Tomatoes Score Available");
+    }
+
+    $("#movie-poster").attr("src", response.Poster);
+    $("#myModal").modal("show");
+    console.groupEnd();
+  });
+}

@@ -17,10 +17,15 @@
     <!-----Firebase references needs to be here             -->
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="assets/javascript/server.js"></script>
     <script src="assets/javascript/myList.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <style>
@@ -44,8 +49,12 @@
           <nav>
             <h1>Binge Watch</h1>
             <h4>Your Personal Binge List</h4>
-            <a id="mysearch" href="search.html">Search More Titles</a><br><br>
-            <a id="myhours" >Total Number Of Hours Of Binge Watching To Do -  ___   </a>
+            <a id="mysearch" href="search.html">Search More Titles</a
+            ><br /><br />
+            <p>
+              Total Number Of Hours Of Binge Watching To Do -
+              <span id="myHours"></span>
+            </p>
             <br />
             <hr size="10" />
           </nav>
@@ -62,5 +71,38 @@
       </section>
     </div>
     <!---------------------------------------------------------------------------------------->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title"></h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <!-- Modal info here -->
+            <p id="rating"></p>
+            <p id="plot"></p>
+            <p id="rotten-tomatoes"></p>
+            <p id="actors"></p>
+            <img
+              src="#"
+              alt="No Movie Poster"
+              id="movie-poster"
+              class="imovie"
+            />
+          </div>
+
+          <!-- Modal footer
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
